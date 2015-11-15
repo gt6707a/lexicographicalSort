@@ -15,44 +15,6 @@ function lexicographicalSort(list, order) {
         hash[order[i]] = i + 1;
     }
 
-    function exch(list, i, j) {
-        var temp = list[i];
-        list[i] = list[j];
-        list[j] = temp;
-    }
-
-    function qSort(list, lo, hi, x) {
-        if ((hi - lo) <= 0) { return; } // Done
-
-        var i = lo - 1, j = hi;
-        var p = lo - 1, q = hi;
-        var v = list[hi][x];
-
-        while (i < j) {
-            while (list[++i][x] < v) { if (i === hi) { break; }} // find first string[x] >= v from lo
-            while (v < list[--j][x]) { if (j === lo) { break; }} // find first string[x] <= v from hi
-
-            if (i > j) break; // break if i crossed j
-
-            exch(list, i, j);
-
-            if (list[i][x] === v) { exch(list, ++p, i); }
-            if (list[j][x] === v) { exch(list, --q, j); }
-        }
-
-        if (p === q) {
-            if (v != '\0') {
-                qSort(list, lo, hi, x + 1);
-            }
-        }
-
-
-
-    }
-
-
-
-
     function _sort(str1, str2) {
         var commonLength = str1.length <= str2.length ? str1.length : str2.length;
 
@@ -68,12 +30,14 @@ function lexicographicalSort(list, order) {
     }
 
     list.sort(_sort);
-    console.log(list);
+//    console.log(list);
 
     /*
-     * Using Array.sort, it could be either qsort O(1.39NlogN) or mergesort O(NlogN).
-     * Within each compare,
+     * Using Array.sort, it could be either quick sort O(1.39NlogN) in practice [quadratic in theory] or mergesort O(NlogN) where N is number of elements to sort.
+     * Within each compare, it could take O(m) where m is the length of shorter string. Hash access is constant.
+     * Overall, in theory, O is between O(mNLogN) (merge sort) to O(m x N^2 / 2) (quick sort).
+     * I implemented 3-way quicksort in qLexSort.js to not use Array.sort()
      */
 }
 
-lexicographicalSort(["dab", "cab", "abcd", "dabc", "dabc", "dacb", "dbaa", "bcca", "b", "a", "ba"], "bcad");
+//lexicographicalSort(["dab", "cab", "abcd", "dabc", "dabc", "dacb", "dbaa", "bcca", "b", "a", "ba"], "bcad");
